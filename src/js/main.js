@@ -1,4 +1,6 @@
-import generator from './html-generator';
+import generatorLis from './genLis';
+import generatorCard from './genCard';
+
 import API from './fetchCountries';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import '../sass/index.scss';
@@ -26,29 +28,28 @@ function searchCountry(e) {
   searchcountry
     .fetchCountries()
     .then(c => {
-      appendHTML(generator(c));
+      console.log(c.length);
+      if (c.length > 10) {
+        notify('i');
+        return;
+      }
+      c.length === 1 ? appCard(generatorCard(c)) : appLi(generatorLis(c));
     })
     .catch(resetHTML);
 }
 
-function appendHTML({ position, HTML, l }) {
-  if (l > 10) {
-    notify('i');
-    return;
-  }
-  position === 0 ? appLi(HTML) : appCard(HTML);
-}
 
-function appCard(html) {
+function appCard({ position, HTML, l }) {
   refs.ul.innerHTML = '';
-  refs.card.innerHTML = html;
-}
-function appLi(html) {
-  refs.card.innerHTML = '';
-  refs.ul.innerHTML = html;
+  refs.card.innerHTML = HTML;
 }
 
-function resetHTML() {
+function appLi({ position, HTML, l }) {
+  refs.card.innerHTML = '';
+  refs.ul.innerHTML = HTML;
+}
+
+function resetHTML(er) {
   refs.card.innerHTML = '';
   refs.ul.innerHTML = '';
   notify('e');
