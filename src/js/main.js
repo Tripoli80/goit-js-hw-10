@@ -27,13 +27,13 @@ function searchCountry(e) {
   searchcountry.searchName = e.target.value;
   searchcountry
     .fetchCountries()
-    .then(c => {
-      console.log(c.length);
-      if (c.length > 10) {
+    .then(countryArr => {
+      console.log(countryArr.length);
+      if (countryArr.length > 10) {
         notify('i');
         return;
       }
-      c.length === 1 ? appCard(generatorCard(c)) : appLi(generatorLis(c));
+      countryArr.length === 1 ? appCard(generatorCard(countryArr)) : appLi(generatorLis(countryArr));
     })
     .catch(resetHTML);
 }
@@ -52,7 +52,7 @@ function appLi({ position, HTML, l }) {
 function resetHTML(er) {
   refs.card.innerHTML = '';
   refs.ul.innerHTML = '';
-  notify('e');
+  notify('error');
 }
 
 function notify(res) {
@@ -60,7 +60,7 @@ function notify(res) {
     case 's':
       Notify.success('Successfully loaded');
       break;
-    case 'e':
+    case 'error':
       Notify.failure('Oops, there is no country with that name');
       break;
 

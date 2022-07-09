@@ -13,8 +13,6 @@ export default class ApiCountries {
       .then(data => {
         return data.json();
       })
-      .then(countries => {
-        return countries;
-      });
+     
   }
 }
